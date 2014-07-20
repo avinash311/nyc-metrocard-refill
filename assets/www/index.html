@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="format-detection" content="telephone=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="msapplication-tap-highlight" content="no">
+<link rel="icon" type="image/x-icon" href="favicon.ico"/>
+
+<script src="js/jquery-1.11.1.min.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="css/knacss.css" media="all">
+<link rel="stylesheet" href="css/metrocard.css" type="text/css">
+
+<!-- These files are used for both the online web page as well as offline Android app -->
+
+<title>New York MetroCard Refill Calculator</title>
+</head>
+
+<body id="index">
+
+  <div class="ui-header">
+    <div class="row title-row">
+      <h1 class="title-name">
+	<img src="img/logo-small.png" width="44px" height="38px" class="logo-header">Minimize
+	Leftover - MetroCard Refill</h1>
+      <div class="title-button-help">
+        <a href="help.html"><img src="img/help-med.png" width="48px" height="48px"></a>
+      </div>
+    </div> <!-- title-row -->
+  </div> <!-- ui-header -->
+
+  <div class="ui-content">
+
+    <!-- the two inputs: balance text field and checkbox -->
+    <div class="txtcenter">
+      <form id="form" action="javascript:void(0);">
+        <input type="number" min="0.00" max="100.00" step="0.01"
+          name="balance" id="balance" placeholder="0.00 Balance">
+        <label for="vending-machine-checkbox"
+          id="vending-machine"><input type="checkbox" name="vending-machine"
+          id="vending-machine-checkbox" checked="checked">Vending
+          machine</label>
+      </form>
+    </div>
+
+    <!-- the calculated table output -->
+    <table class="striped" id="amounts-table" summary="Refill amounts and total rides">
+      <thead>
+	<tr>
+	  <th class="total-rides">Total Rides</th>
+	  <th class="add-amounts">Add $</th>
+	  <th class="total-amounts">Total</th>
+	  <th class="bonus-amounts">Bonus</th>
+	  <th class="leftover-amounts">Leftover</th>
+	</tr>
+      </thead>
+
+      <tbody>
+	<tr>
+	  <!-- dummy table, will be erased and filled in by Javascript app -->
+	  <td class="total-rides">2</td>
+	  <td class="add-amount">5.00</td>
+	  <td class="total-amount">5.25</td>
+	  <td class="bonus-amount">0.25</td>
+	  <td class="leftover-amount">0.25</td>
+	</tr>
+      </tbody>
+    </table>
+
+  </div> <!-- ui-content -->
+
+  <div class="ui-footer">
+    <h3 class="title">Disclaimer</h3>
+
+    <p>
+      Check MetroCard vending machines for actual bonus amounts.<br> This calculator has no
+      affiliation to New York MetroCard.
+    </p>
+
+  </div>
+  <!-- ui-footer -->
+
+  <!-- Application Javascript files - at end of body to guarantee page DOM is all loaded -->
+  <script src="js/metrocard.js"></script>
+</body>
+</html>

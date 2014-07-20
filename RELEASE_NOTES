@@ -1,0 +1,76 @@
+Minimize Leftover MetroCard Refill - Release Notes
+
+Main page:
+ http://www.aczoom.com/travel/new-york/new-york-metrocard-refill-calculator
+
+Online tool:
+ http://www.aczoom.com/tools/metrocard/
+
+Offline Android App at Google Play Store
+ https://play.google.com/store/apps/details?id=com.aczoom.nycmetrocard
+
+Open-source project hosted at code.google.com using MIT License.
+ https://code.google.com/p/nyc-metrocard-refill/
+
+Description:
+
+Light-weight app to show the amount to add to minimize leftovers when buying
+rides on a NYC MetroCard
+
+Version 0.7.0
+=============
+July 2014
+
+ * Removed appcompat v7 library and the styles since this app does not
+   use action bar, and NoTitleBar.FullScreen is a built-in theme.
+   This helped reduced .apk size from over 1M to around 330K.
+
+ * Added max-width to table to make it easier to read on large wide screens.
+
+ * Removed all custom favions, now have a single favicon and can use all these
+   HTML pages both on online web site and the Android app without any changes.
+
+ * Uploaded to code.google.com as an open-source project.
+
+Version 0.6.0
+=============
+July 2014
+
+ * Now uses Android WebView directly, and does not use jQuery Mobile since
+   none of its features were used.
+   This makes the app startup much much faster. Instead of nearly a second
+   on a Moto-X phone, now takes under a quarter of second or so.
+ 
+ * Added support for HMTL5 localstorage so balance amount and other UI fields
+   are saved between sessions. This helps a lot on mobile platforms so that
+   even after a screen orientation change the old user-entered values are
+   preserved.
+
+ * Minor UI changes. Help is now a button on the title line. Input fields
+   glow blue when they have focus.
+
+ * Uses jQuery JavaScript library and knacss.com CSS package and removed
+   use of other packages. Tested on smaller width screens too, should
+   display much better now.
+
+ * Manually added version code: 560 (previous release used Cordova, which
+   used version code 500).
+
+Version 0.5.0
+=============
+July 2014
+
+ * Minor bug fixes and UI changes.
+
+ * Cordova generated version code: 500
+
+Version 0.4.0
+=============
+July 2014
+
+ * Initial release.
+
+ * Uses jQuery Mobile for the web pages. Uses Apache Cordova to create
+   Android App which wraps those web pages.
+ 
+ * Single click on the location longitude,latitude text will open up the visual location editor.

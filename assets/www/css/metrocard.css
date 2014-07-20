@@ -1,0 +1,166 @@
+/* These files are used for both the online web page as well as offline Android app */
+
+#amounts-table {
+  display: block;
+  margin: 0.2em auto 0 auto; /* center the table */
+  width: 100%;
+  max-width: 45em; /* stop table from being too wide */
+  border: none; /* max-width + width may cause incorrect border display on large screens */
+}
+#amounts-table tbody {
+  font-size: 1.4em;
+}
+#amounts-table th {
+  padding-left: 0.4em;
+  padding-right: 0.1em;
+  vertical-align: bottom;
+}
+#amounts-table td {
+  padding-left: 0.4em;
+  padding-right: 0.4em;
+  white-space: nowrap;
+}
+
+th, td { /* override knacss */
+  border-style: solid;
+}
+
+/* assign column widths appropriate for results table */
+.total-rides {
+  width: 13%;
+}
+.add-amount {
+  width: 23%;
+}
+.total-amount {
+  width: 23%;
+}
+.bonus-amount {
+  width: 23%;
+}
+.leftover-amount {
+  width: 18%;
+}
+
+.ui-footer, .ui-header {
+  background-color: #e9e9e9;
+  padding: 8px 16px;
+}
+
+.title-row {
+  width: 100%;
+}
+.title-name {
+  text-align: center;
+  font-size: 1.2em;
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+}
+.title-button-help {
+  width: 54px;
+  text-align: right;
+  vertical-align: middle;
+}
+
+#vending-machine, #balance {
+  display: inline-block;
+}
+#vending-machine-checkbox {
+  width:1.1em;
+  height:1.1em;
+  margin-right:0.5em;
+}
+
+/* font size, which also dictates element box size */
+#vending-machine {
+  font-size: 1.1em; /* around 75-80% of #balance font */
+  padding: 0.2em 0.4em;
+  margin-bottom: 0.4em;
+}
+#balance {
+  font-size: 1.4em;
+  width: 8em;
+  padding: 0.2em 0 0.2em 0.4em;
+  margin-bottom: 0.4em;
+}
+
+input:focus,textarea:focus,select:focus{
+  border:1px solid #fafafa;
+  -webkit-box-shadow:0 0 6px #007eff;
+  -moz-box-shadow:0 0 5px #007eff;
+  box-shadow:0 0 5px #007eff;
+}
+
+.logo-about {
+  float: left;
+  padding: 0px 16px 8px 0px;
+}
+
+.logo-header {
+  vertical-align:middle;
+  padding-right:0.5em;
+}
+
+hr {
+  clear: both;
+  margin-bottom: 1em;
+}
+
+.ui-content {
+  background-color: #f9f9f9;
+  padding: 12px;
+}
+
+#help .ui-content {
+  font-size: 1.2em;
+}
+
+#help-back {
+  border: 1px solid #ccc;
+  box-shadow: inset 0 1px 3px #ddd;
+  border-radius: 1em;
+  font-size: 1.2em;
+  font-weight: bold;
+  padding: 0 1em;
+  text-decoration: none;
+}
+.icon {
+  padding-right: 1em;
+}
+
+/* border on text field and the label
+ * also glow when user moves focus to these fields
+ */
+input[type=number], textarea, label {
+  -webkit-transition: all 0.30s ease-in-out;
+  -moz-transition: all 0.30s ease-in-out;
+  -ms-transition: all 0.30s ease-in-out;
+  -o-transition: all 0.30s ease-in-out;
+  outline: none;
+  padding: 3px 0px 3px 3px;
+  margin: 5px 1px 3px 0px;
+  border: 2px solid #66a;
+  border-radius: 2em;
+}
+ 
+input[type=number]:focus, textarea:focus, label:focus {
+  box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+  padding: 3px 0px 3px 3px;
+  margin: 5px 1px 3px 0px;
+  border: 2px solid rgba(81, 203, 238, 1);
+  border-radius: 2em;
+}
+
+/* webkit and firefox browsers: Turn Off Number Input Spinners */
+/* these make it complicated to get field change events, so disable them */
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+input[type=number] {
+  -moz-appearance: textfield;
+}

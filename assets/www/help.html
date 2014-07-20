@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="format-detection" content="telephone=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="msapplication-tap-highlight" content="no">
+<link rel="icon" type="image/x-icon" href="favicon.ico"/>
+
+<script src="js/jquery-1.11.1.min.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="css/knacss.css" media="all">
+<link rel="stylesheet" href="css/metrocard.css" type="text/css">
+
+<!-- These files are used for both the online web page as well as offline Android app -->
+
+<title>Help Page - MetroCard Refill Calculator</title>
+</head>
+
+<body id="help">
+  <div class="ui-header">
+    <div class="row title-row">
+      <h1 class="title-name">
+	<img src="img/logo-small.png" width="44px" height="38px" class="logo-header">Minimize
+	Leftover - MetroCard Refill</h1>
+    </div> <!-- title-row -->
+  </div> <!-- ui-header -->
+
+  <div class="ui-content">
+    <h2>Help</h2>
+
+    <p>Enter current balance in dollar amounts as a decimal number in the text field.</p>
+
+    <p>Optionally, if purchasing with cash from a manned ticket booth, uncheck the
+    <b>Vending machine</b> box.</p>
+
+    <p>The table with the refill amounts will update when the typing of the
+    entry in the balance field is completed.<br>
+    The entry can be completed by clicking or touching outside the balance field (such as on the table) or
+    typing a Tab or an Enter key in it.<br>
+    Table will also update on any click or touch on the <b>Vending machine</b> checkbox option.</p>
+
+    <p>The refill amounts are displayed in a table. <b>Total Rides</b> shows the number of rides
+    available for a standard subway ticket. The remaining columns show the amount to be added,
+    the total amount on the card, the bonus amount received, and the amount leftover after the
+    total number of rides are used up.</p>
+
+    <p>The table heading row will blink to indicate that the table data has been updated and refreshed.</p>
+
+    <p>The first row in the table shows the number of rides based on the current balance on the card.</p>
+
+    <h2>Description</h2>
+
+    <p>New York MetroCard has a bonus component that makes it very hard to calculate the amount
+    of refill to minimize leftover amounts. Many calculators exist on the web and smartphones but
+    they all try to reduce the leftover amount to zero, which means purchasing too many rides.
+    This calculator is useful for tourists who want to buy a Per-Per-Ride card. It shows amount
+    to add to receive a certain number of rides and the leftover amount which is usually under a
+    nickel.</p>
+
+    <h2>Notes</h2>
+
+    <p>Vending machines only allow for purchase amounts that are rounded to nickels ($0.05).
+    Manned ticket booths may accept single cent cash amounts.</p>
+
+    <p>There may be minimum and maximum purchases. For example, $1 to $100 may be limits for
+    actual purchases.</p>
+
+    <p>There is a $1 charge for purchasing a new MetroCard.</p>
+
+    <p>When purchasing 3 or more additional rides, this calculator will minimize the leftover to
+    be no more than a nickel.</p>
+
+    <p>MetroCard® is a registered trademark of the New York Metropolitan Transportation
+    Authority.</p>
+
+    <p><a href="http://en.wikipedia.org/wiki/MetroCard_(New_York_City)" rel="external">Wikipedia
+    entry - NYC MetroCard</a></p>
+
+    <h2>About</h2>
+
+    <img src="img/logo.png" width="136" height="116" alt="MetroCard Logo" class="logo-about">
+
+    <p>The offline MetroCard Refill Calculator application is available in the
+    <a href="https://play.google.com/store/apps/details?id=com.aczoom.nycmetrocard" rel="external">Google Play Store</a>.</p><p>
+    The application is based on the
+    <a href="http://www.aczoom.com/tools/metrocard/" rel="external">online web pages</a> at ACZoom.com which
+    were converted to an Android application using
+    <a href="http://developer.android.com/guide/webapps/webview.html" rel="external">WebView</a>.<p><p>
+    The web pages were built using HTML5 and JavaScript libraries including
+    <a href="https://jquery.org/" rel="external">jQuery</a> and 
+    <a href="http://www.knacss.com/" rel="external">KNACSS</a>.
+    </p>
+
+    <hr>
+    <a href="index.html" class="inbl back" id="help-back"><i class="icon">&#8630;</i>Back</a>
+  </div><!-- ui-content -->
+
+  <!-- Application Javascript files - and end to guarantee page DOM is all loaded -->
+  <script src="js/metrocard.js"></script>
+</body>
+</html>
