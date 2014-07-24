@@ -9,13 +9,22 @@ Online tool:
 Offline Android App at Google Play Store
  https://play.google.com/store/apps/details?id=com.aczoom.nycmetrocard
 
-Open-source project hosted at code.google.com using MIT License.
+Open-source project hosted at code.google.com
  https://code.google.com/p/nyc-metrocard-refill/
+ MIT License
 
 Description:
 
 Light-weight app to show the amount to add to minimize leftovers when buying
 rides on a NYC MetroCard
+
+Version 0.8.0
+=============
+July 2014
+
+ * Handle screen orientation change correctly when on the Help page.
+
+ * Allow pinch-to-zoom for the app pages.
 
 Version 0.7.0
 =============
