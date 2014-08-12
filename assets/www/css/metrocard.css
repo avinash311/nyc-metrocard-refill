@@ -20,6 +20,19 @@
   padding-right: 0.4em;
   white-space: nowrap;
 }
+/* table row background turns green for 0 balance amounts */
+#amounts-table tr.add0,
+#amounts-table tr.balance5,
+#amounts-table tr.balance6 {
+}
+#amounts-table tr.balance0 {
+  background-color: #ccffcc;
+}
+#amounts-table tr.balance1,
+#amounts-table tr.balance2,
+#amounts-table tr.balance3,
+#amounts-table tr.balance4 {
+}
 
 th, td { /* override knacss */
   border-style: solid;

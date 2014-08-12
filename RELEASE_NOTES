@@ -16,7 +16,13 @@ Open-source project hosted at code.google.com
 Description:
 
 Light-weight app to show the amount to add to minimize leftovers when buying
-rides on a NYC MetroCard
+rides on a NYC MetroCard subway travel card.
+
+Version 0.9.0
+=============
+August 2014
+
+ * Updated name and icon, and help text.
 
 Version 0.8.0
 =============

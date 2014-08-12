@@ -308,7 +308,7 @@ function tableRows(values, $table) {
   var newrows;
   for (i = 0; i < values.length; ++i) {
     var rdata = values[i];
-    newrows += "<tr>";
+    newrows += "<tr class=\"" + tableRowClass(rdata) + "\">";
     newrows += "<td class=\"total-rides\">" + rdata.totalRides + "</td>";
     newrows += "<td class=\"add-amount\">" + toDisplay(rdata.purchase) + "</td>";
     newrows += "<td class=\"total-amount\">" + toDisplay(rdata.totalAmount) + "</td>";
@@ -317,6 +317,19 @@ function tableRows(values, $table) {
     newrows += "</tr>";
   }
   return newrows;
+}
+// Return a class name for the row, based on whether leftover is 0
+function tableRowClass(rdata) {
+    var cname = "balance";
+    var leftover = Math.round(rdata.leftover); // to integer
+    if (rdata.purchase <= 0) {
+      cname = "add0";
+    } else if (leftover <= 5) {
+      cname += leftover;
+    } else {
+      cname += "6"; // leftover can be as high as 29 or so
+    }
+    return cname;
 }
 
 ///////////////////////////////////////////////////////////////////////////
