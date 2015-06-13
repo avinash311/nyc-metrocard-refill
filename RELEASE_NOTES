@@ -18,6 +18,14 @@ Description:
 Light-weight app to show the amount to add to minimize leftovers when buying
 rides on a NYC MetroCard subway travel card.
 
+Version 1.0.0
+=============
+June 2015
+
+ * Updated fare and bonus amount values
+ 
+ * Updated the calculations to handle rounding/inverse a bit better
+
 Version 0.9.0
 =============
 August 2014

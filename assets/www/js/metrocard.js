@@ -34,14 +34,14 @@ function roundTo(amount, value) {
 /**
  * MetroCard calculations
  * All stored amounts are in cents (US$ * 100).
- * All displayed amounts are is US$
+ * All displayed amounts are in US$
  */
 function MetroCard(balance) {
-  // Constants set by New York MTA.
-  // Correct as of 2014 Summer
-  this.costSingle = 250; // price of a single ride
-  this.bonusMin = 500; // purchase minimum to get a bonus
-  this.bonusPercent = 5;
+  // Constants set by New York MTA - Updated June 2015
+  this.costSingle = 275; // price of a single ride
+  this.bonusMin = 550; // purchase minimum to get a bonus
+  this.bonusPercent = 11;
+
   this.purchaseMax = 8000; // max purchase amount $80.00
   this.balanceMax = 10000; // max card balance amount $100.00
 
@@ -68,12 +68,13 @@ MetroCard.prototype.Update = function (balance, vendingMachine) {
 }
 
 // How does MTA round the bonus? No idea - assume Math.round() works the same.
-// So we assume fractional cent values are rounded to full cents.
-// Total = Purchase + Bonus
-// where Bonus = Purchase * Bonus%
-// We have two funtions, inverse of each other:
+// i.e., all numbers X.5 or more are rounded to the next integer X+1.
+// Total = Rounded_To_Cents(Purchase * (1 + Bonus%))
+// where Purchase and Total are amounts in cents.
+// We have two funtions, one foward, and one inverse:
 // Given Purchase, compute the bonus (this is what MTA does)
-// Given Total, compute the bonus (this is necessary for this calculator)
+// Inverse: Given Total, compute Purchase amount (needed for this calculator)
+
 MetroCard.prototype.ComputeBonusFromPurchase = function (purchase) {
   var bonus = 0;
   if (purchase >= this.bonusMin) {
@@ -81,13 +82,52 @@ MetroCard.prototype.ComputeBonusFromPurchase = function (purchase) {
   }
   return bonus;
 }
-// Invert bonus rounding calculation
+
+// Inverse: Given Total, compute the Purchase amount
+// This is tricky because percent calculations require floating point
+// arithmetic, so there will be inaccurate results.
+// Exact inverse calculation: Purchase = Total / (1 + Bonus%)
+// A couple of ways to do this: do the exact computation. That may be
+// 1 cent more than needed, or 1 cent less. Check all three values, by
+// doing the MTA forward calculation, and pick the best option (0 or positive
+// leftover, and the lesser leftover).
+// Another way: given we need Total integer cents, find the exact
+// caculation for Total - 0.5. Since rounding that will give Total cents.
+// Then, since that is the minimum amount necessary, in floating point,
+// round that up to the next integer (Math.ceil) if not exactly an integer.
+
 MetroCard.prototype.ComputePurchaseFromTotal = function (total) {
-  // Round or Floor or Ceil?
-  var purchase = total;
+  var purchase = total; // default value in cents
   if (total >= this.bonusMinTotal) {
-    purchase = Math.round(total * 100 / (100 + this.bonusPercent));
+    var need = total - 0.5; // min amount required, in cents
+    // Anything lower than the needed amount will not be enough, so use
+    // ceil function to get next cents amount.
+    purchase = Math.ceil(need * 100.0 / (100.0 + this.bonusPercent));
+
+    // Original code, will not work - may be +1 or -1 cents than required.
+    // purchase = Math.round(total * 100.0 / (100.0 + this.bonusPercent)); // NOTUSED
   }
+
+  // Validate amount, and try next higher or lower integer as needed.
+  // May not be necessay any more, but do it anyway to ensure right amount
+  // and report if the above calculation failed.
+  var total_new = this.ComputeBonusFromPurchase(purchase) + purchase;
+  if (total_new != total) { // if diff is 0, don't need to try other amount
+    var purchase_try = 0;
+    if (total_new < total) {
+      purchase_try = purchase + 1;
+    } else if (total_new > total) {
+      purchase_try = purchase - 1;
+    }
+    var total_try = this.ComputeBonusFromPurchase(purchase_try) + purchase_try;
+    if (total_try >= total && total_try != total_new) {
+      // Show a message even in release build, if user has Javascript console displayed
+      console.warn("Inverse calculation for total %f adjusted to: purchase_try %f, total_try %f, from purchase %f, total %f",
+	total, purchase_try, total_try, purchase, total_new);
+      purchase = purchase_try;
+    }
+  }
+
   return purchase;
 }
 
