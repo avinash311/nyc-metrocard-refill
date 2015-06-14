@@ -38,9 +38,10 @@ function roundTo(amount, value) {
  */
 function MetroCard(balance) {
   // Constants set by New York MTA - Updated June 2015
+  // All must be integers only, or may not work well.
   this.costSingle = 275; // price of a single ride
   this.bonusMin = 550; // purchase minimum to get a bonus
-  this.bonusPercent = 11;
+  this.bonusPercent = 11; // code supports full integer % only, no fractions
 
   this.purchaseMax = 8000; // max purchase amount $80.00
   this.balanceMax = 10000; // max card balance amount $100.00
@@ -95,17 +96,29 @@ MetroCard.prototype.ComputeBonusFromPurchase = function (purchase) {
 // caculation for Total - 0.5. Since rounding that will give Total cents.
 // Then, since that is the minimum amount necessary, in floating point,
 // round that up to the next integer (Math.ceil) if not exactly an integer.
+// Can also use integer arithmetic using ((a/b)|0) to convert Javascript
+// floating point a/b result to integer, same as Math.floor.
+// Or use remainder: a%b and then subtract that from a to get exact quotient.
 
 MetroCard.prototype.ComputePurchaseFromTotal = function (total) {
   var purchase = total; // default value in cents
   if (total >= this.bonusMinTotal) {
-    var need = total - 0.5; // min amount required, in cents
+    // Use integer numbers of total/percent. So scale numerator and
+    // denominator by 100 here to remove all floating number numbers.
+    // (may work best only when percent bonus has no fractional part,
+    // ex 5% or 11% etc)
+    var percent_scaled = 100 + this.bonusPercent;
+    var total_scaled = total * 100;
+    
+    // We need actually 0.5 cents less than total, subtract scaled 0.5*100
+    total_scaled -= 50; // minimum amount required, in cents*100
+
     // Anything lower than the needed amount will not be enough, so use
     // ceil function to get next cents amount.
-    purchase = Math.ceil(need / (1.0 + this.bonusPercent/100.0));
+    purchase = Math.ceil(total_scaled / percent_scaled);
 
     // Original code, will not work - may be +1 or -1 cents than required.
-    // purchase = Math.round(total / (1.0 + this.bonusPercent/100.0)); // NOTUSED
+    // purchase = Math.round(total * 100 / (100 + this.bonusPercent)); // NOTUSED
   }
 
   // Validate amount, and try next higher or lower integer as needed.
