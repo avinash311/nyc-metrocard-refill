@@ -102,10 +102,10 @@ MetroCard.prototype.ComputePurchaseFromTotal = function (total) {
     var need = total - 0.5; // min amount required, in cents
     // Anything lower than the needed amount will not be enough, so use
     // ceil function to get next cents amount.
-    purchase = Math.ceil(need * 100.0 / (100.0 + this.bonusPercent));
+    purchase = Math.ceil(need / (1.0 + this.bonusPercent/100.0));
 
     // Original code, will not work - may be +1 or -1 cents than required.
-    // purchase = Math.round(total * 100.0 / (100.0 + this.bonusPercent)); // NOTUSED
+    // purchase = Math.round(total / (1.0 + this.bonusPercent/100.0)); // NOTUSED
   }
 
   // Validate amount, and try next higher or lower integer as needed.
