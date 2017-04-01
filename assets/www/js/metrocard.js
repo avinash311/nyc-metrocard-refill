@@ -41,7 +41,7 @@ function MetroCard(balance) {
   // All must be integers only, or may not work well.
   this.costSingle = 275; // price of a single ride
   this.bonusMin = 550; // purchase minimum to get a bonus
-  this.bonusPercent = 11; // code supports full integer % only, no fractions
+  this.bonusPercent = 5; // code supports full integer % only, no fractions
 
   this.purchaseMax = 8000; // max purchase amount $80.00
   this.balanceMax = 10000; // max card balance amount $100.00
