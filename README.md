@@ -10,9 +10,5 @@ Also available in the Google Play Store as an Android app that can work offline 
 https://play.google.com/store/apps/details?id=com.aczoom.nycmetrocard
 
 The source code for this project is available at https://github.com/avinash311/nyc-metrocard-refill/ 
-
-App has been updated in June 2015, with the new rates and bonus amounts.
-
-Homepage: http://www.aczoom.com/tools/metrocard/
-
-Automatically exported from code.google.com/p/nyc-metrocard-refill  2016-04-15
+Note that the Android App may have older rates, so prefer to the online tool whenever possible:
+  http://www.aczoom.com/tools/metrocard/

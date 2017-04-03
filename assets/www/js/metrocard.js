@@ -37,7 +37,7 @@ function roundTo(amount, value) {
  * All displayed amounts are in US$
  */
 function MetroCard(balance) {
-  // Constants set by New York MTA - Updated June 2015
+  // Constants set by New York MTA - Updated March 19, 2017
   // All must be integers only, or may not work well.
   this.costSingle = 275; // price of a single ride
   this.bonusMin = 550; // purchase minimum to get a bonus
