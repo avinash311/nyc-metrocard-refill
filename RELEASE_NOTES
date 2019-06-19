@@ -1,4 +1,4 @@
-Minimize Leftover MetroCard Refill - Release Notes
+MetroCard Refill - Release Notes
 
 Main page:
  http://www.aczoom.com/travel/new-york/new-york-metrocard-refill-calculator
@@ -15,12 +15,15 @@ Open-source project hosted at code.google.com
 
 Description:
 
-Light-weight app to show the amount to add to minimize leftovers when buying
-rides on a NYC MetroCard subway travel card.
+Light-weight app to show the amount to add to get required number of rides when buying
+rides on a NYC MetroCard subway travel card with an existing balance.
 
-Version 1.n.n
+
+Version 1.2.0
 =============
-Not yet released
+June 2019
+
+ * March 2019 MTA fare changes: bonus amount eliminated
 
  * Source code link in help file updated to point to GitHub instead of code.google.com
 

@@ -89,7 +89,7 @@ MetroCard.prototype.AddRides = function (add) {
   // Special case for no added rides, just calculate current leftover
   if (add < 1) {
     // RefillAmount(purchase, leftover, totalRides, newBalance);
-    return new RefillAmount(0, 0, 0 - need, this.numRides, this.balance);
+    return new RefillAmount(0, 0 - need, this.numRides, this.balance);
   }
 
   // Calculate additional purchase amount. Without bonus, this is same as what we need.
@@ -125,7 +125,7 @@ var gSubmitId = "#submit"; // HTML id of submit button to update table
 var gBalanceId = "#balance"; // HTML id of balance input text field
 var gVendingId = "#vending-machine-checkbox"; // HTML id for vending checkbox
 
-var gMaxRides = 40; // Maximum number of rides to try to add to card
+var gMaxRides = 30; // Maximum number of rides to try to add to card
 var gFadeDuration = 1200; // milliseconds to display table blink on update
 var gFadeId = gTableId + " thead"; // selector to use for table blink
 var gAndroidApp = false; // true if we are running in WebView Android App
