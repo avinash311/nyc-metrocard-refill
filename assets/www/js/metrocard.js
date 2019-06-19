@@ -37,11 +37,10 @@ function roundTo(amount, value) {
  * All displayed amounts are in US$
  */
 function MetroCard(balance) {
-  // Constants set by New York MTA - Updated March 19, 2017
-  // All must be integers only, or may not work well.
+  // Constants set by New York MTA - Updated March 19, 2019
+  // No bonus available anymore.
+  // Amounts must be integers only, or will have rounding problems.
   this.costSingle = 275; // price of a single ride
-  this.bonusMin = 550; // purchase minimum to get a bonus
-  this.bonusPercent = 5; // code supports full integer % only, no fractions
 
   this.purchaseMax = 8000; // max purchase amount $80.00
   this.balanceMax = 10000; // max card balance amount $100.00
@@ -64,91 +63,13 @@ MetroCard.prototype.Update = function (balance, vendingMachine) {
   } else {
     this.numRides = 0;
   }
-  this.bonusMinTotal = this.ComputeBonusFromPurchase(this.bonusMin) +
-    this.bonusMin; // Total amount received when bonusMin amount purchased
 }
 
-// How does MTA round the bonus? No idea - assume Math.round() works the same.
-// i.e., all numbers X.5 or more are rounded to the next integer X+1.
-// Total = Rounded_To_Cents(Purchase * (1 + Bonus%))
-// where Purchase and Total are amounts in cents.
-// We have two funtions, one foward, and one inverse:
-// Given Purchase, compute the bonus (this is what MTA does)
-// Inverse: Given Total, compute Purchase amount (needed for this calculator)
-
-MetroCard.prototype.ComputeBonusFromPurchase = function (purchase) {
-  var bonus = 0;
-  if (purchase >= this.bonusMin) {
-     bonus = Math.round(purchase * this.bonusPercent / 100.0);
-  }
-  return bonus;
-}
-
-// Inverse: Given Total, compute the Purchase amount
-// This is tricky because percent calculations require floating point
-// arithmetic, so there will be inaccurate results.
-// Exact inverse calculation: Purchase = Total / (1 + Bonus%)
-// A couple of ways to do this: do the exact computation. That may be
-// 1 cent more than needed, or 1 cent less. Check all three values, by
-// doing the MTA forward calculation, and pick the best option (0 or positive
-// leftover, and the lesser leftover).
-// Another way: given we need Total integer cents, find the exact
-// caculation for Total - 0.5. Since rounding that will give Total cents.
-// Then, since that is the minimum amount necessary, in floating point,
-// round that up to the next integer (Math.ceil) if not exactly an integer.
-// Can also use integer arithmetic using ((a/b)|0) to convert Javascript
-// floating point a/b result to integer, same as Math.floor.
-// Or use remainder: a%b and then subtract that from a to get exact quotient.
-
-MetroCard.prototype.ComputePurchaseFromTotal = function (total) {
-  var purchase = total; // default value in cents
-  if (total >= this.bonusMinTotal) {
-    // Use integer numbers of total/percent. So scale numerator and
-    // denominator by 100 here to remove all floating number numbers.
-    // (may work best only when percent bonus has no fractional part,
-    // ex 5% or 11% etc)
-    var percent_scaled = 100 + this.bonusPercent;
-    var total_scaled = total * 100;
-    
-    // We need actually 0.5 cents less than total, subtract scaled 0.5*100
-    total_scaled -= 50; // minimum amount required, in cents*100
-
-    // Anything lower than the needed amount will not be enough, so use
-    // ceil function to get next cents amount.
-    purchase = Math.ceil(total_scaled / percent_scaled);
-
-    // Original code, will not work - may be +1 or -1 cents than required.
-    // purchase = Math.round(total * 100 / (100 + this.bonusPercent)); // NOTUSED
-  }
-
-  // Validate amount, and try next higher or lower integer as needed.
-  // May not be necessay any more, but do it anyway to ensure right amount
-  // and report if the above calculation failed.
-  var total_new = this.ComputeBonusFromPurchase(purchase) + purchase;
-  if (total_new != total) { // if diff is 0, don't need to try other amount
-    var purchase_try = 0;
-    if (total_new < total) {
-      purchase_try = purchase + 1;
-    } else if (total_new > total) {
-      purchase_try = purchase - 1;
-    }
-    var total_try = this.ComputeBonusFromPurchase(purchase_try) + purchase_try;
-    if (total_try >= total && total_try != total_new) {
-      // Show a message even in release build, if user has Javascript console displayed
-      console.warn("Inverse calculation for total %f adjusted to: purchase_try %f, total_try %f, from purchase %f, total %f",
-	total, purchase_try, total_try, purchase, total_new);
-      purchase = purchase_try;
-    }
-  }
-
-  return purchase;
-}
 
 // Each additional refill amount has these properties:
 // how much to refill, how many total rides does it get, etc
-function RefillAmount(purchaseAmount, bonus, leftover, rides, newBalance) {
+function RefillAmount(purchaseAmount, leftover, rides, newBalance) {
   this.purchase = purchaseAmount;
-  this.bonus = bonus;
   this.leftover = leftover;
   this.totalAmount = newBalance;
   // These can be computed based on above basic values
@@ -158,8 +79,7 @@ function RefillAmount(purchaseAmount, bonus, leftover, rides, newBalance) {
 
 /**
  * Calculate the refill amount to add rides.
- * This is the heart of the calculator, and tries to mimic how the MTA
- * vending machines may be performing the bonus calculations.
+ * This is the main part of the calculator.
  */
 MetroCard.prototype.AddRides = function (add) {
   var totalRides = this.numRides + add;
@@ -168,25 +88,17 @@ MetroCard.prototype.AddRides = function (add) {
   var need = totalAmount - this.balance;
   // Special case for no added rides, just calculate current leftover
   if (add < 1) {
-    // RefillAmount(purchase, bonus, leftover, totalRides, newBalance);
+    // RefillAmount(purchase, leftover, totalRides, newBalance);
     return new RefillAmount(0, 0, 0 - need, this.numRides, this.balance);
   }
 
-  // Calculate additional purchase amount
-  var purchase = 0;
-  if (need < this.bonusMin) {
-    purchase = need;
-  } else if (need < this.bonusMinTotal) {
-    purchase = this.bonusMin;
-  } else {
-    purchase = this.ComputePurchaseFromTotal(need);
-  }
+  // Calculate additional purchase amount. Without bonus, this is same as what we need.
+  var purchase = need;
+
   // Update purchase to be rounded to required nickel or cent
   purchase = roundTo(purchase, this.purchaseRound);
 
-  var bonus = this.ComputeBonusFromPurchase(purchase);
-
-  var amountAdded = purchase + bonus;
+  var amountAdded = purchase;
   var newBalance = this.balance + amountAdded;
   var leftover = newBalance - totalAmount;
 
@@ -194,9 +106,9 @@ MetroCard.prototype.AddRides = function (add) {
     return null;
   }
 
-  DEBUG > 2 && console.log("Adding %d rides: Need %f, add %f, total %f, bonus %f, leftover %f",
-    add, need, purchase, newBalance, bonus, leftover);
-  return new RefillAmount(purchase, bonus, leftover, totalRides, newBalance);
+  DEBUG > 2 && console.log("Adding %d rides: Need %f, add %f, total %f, leftover %f",
+    add, need, purchase, newBalance, leftover);
+  return new RefillAmount(purchase, leftover, totalRides, newBalance);
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -365,7 +277,6 @@ function tableRows(values, $table) {
     newrows += "<td class=\"total-rides\">" + rdata.totalRides + "</td>";
     newrows += "<td class=\"add-amount\">" + toDisplay(rdata.purchase) + "</td>";
     newrows += "<td class=\"total-amount\">" + toDisplay(rdata.totalAmount) + "</td>";
-    newrows += "<td class=\"bonus-amount\">" + toDisplay(rdata.bonus) + "</td>";
     newrows += "<td class=\"leftover-amount\">" + toDisplay(rdata.leftover) + "</td>";
     newrows += "</tr>";
   }
