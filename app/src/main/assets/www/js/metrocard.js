@@ -1,6 +1,6 @@
 // These files are used for both the online web page as well as offline Android app
 
-var DEBUG = 0; // > 0 for console.* messages, 0 to disable. Values 1 or 2 or 3.
+var DEBUG = 2; // > 0 for console.* messages, 0 to disable. Values 1 or 2 or 3.
 // var DEBUG = 2; // COMMENT OUT FOR RELEASE
 
 ///////////////////////////////////////////////////////////////////////////
@@ -131,25 +131,26 @@ var gFadeId = gTableId + " thead"; // selector to use for table blink
 var gAndroidApp = false; // true if we are running in WebView Android App
 var gAppName = "NYCMetroCard"; // should match the string in the Android App
 
-$(document).ready(function() {
+$(function() { // == deprecated $(document).ready(function() ...)
   DEBUG && console.log("document ready");
   // Always call bindEvents - we are not using any phone specific APIs here
   // just plain Javascript DOM events
-  bindEvents();
+  bindEventsForAll(); // all pages use these events/objects
+  if ($("body#index").length > 0) {
+    // setup event bindings for the main index.html page
+    bindEventsIndexPage();
+    // WebView seems to ignore/override window.onload events,
+    // so $(window).on("load", restoreUIState) never fires.
+    // Since we only need DOM loaded, can call restoreUIState here itself, and this works
+    // in both WebView app and Desktop Chrome browser.
+    restoreUIState();
+  }
 
   // Check if called as an android app,:
   var userAgent = window.navigator.userAgent;
   gAndroidApp = (userAgent.indexOf(gAppName) >= 0);
   DEBUG && console.log("Is App: " + gAndroidApp + ", got ua " + userAgent);
 });
-
-function bindEvents() {
-  bindEventsForAll(); // all pages use these events/objects
-  if ($("body#index").length > 0) {
-    // setup event bindings for the main index.html page
-    bindEventsIndexPage();
-  }
-}
 
 function bindEventsForAll() {
   /* initialization for all pages */
@@ -182,7 +183,10 @@ function bindEventsIndexPage() {
   // refresh table and prevent further form submission:
   $(document).on("submit", "#form",  updateTableEvent);
   // When page first loads (after all DOM is loaded), restore and refresh table:
-  $(window).on("load", restoreUIState);
+  // $(window).on("load", restoreUIState);
+  // Above no longer (2019) works on the Android App using WebView.
+  // (It does work on desktop Chrome browser).
+  // Now using jQuery .ready() instead.
 }
 
 // Update the table with the new refill amounts based on current field values.
@@ -261,11 +265,12 @@ function getBalance(clearOnZero) {
 
 /* Load values into the page from the localstorage */
 function restoreUIState() {
+  DEBUG && console.log("restoreUIState");
   gUIFields.RestoreState();
   var display = toDisplay(gUIFields.balance);
   $(gBalanceId).val(display); // update the input page field value
   $(gVendingId).prop("checked", gUIFields.vendingMachine);
-  updateTableEvent();
+  updateTableEvent(null);
 }
 
 // Returns a string suitable to enter a table tbody
