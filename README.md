@@ -4,7 +4,7 @@ Yet another MetroCard refill calculator! Tourists to New York will likely use th
 
 Use it to get a table of all possible additional subway rides based on current balance on a NYC MetroCard. It also offers a no-rounding mode, which may work for cash purchases at a manned ticket booth.
 
-This was more useful when MTA added a 5% bonus amount. Now there is no bonus. So this is just a calculator showing how much money to add given an existing balance and needed a certain number of rides.
+This was more useful when MTA added a 5% bonus amount. Now there is no bonus. So this is just a calculator showing how much money to add given an existing balance and needing a certain number of rides.
 
 Also available in the Google Play Store as an Android app that can work offline without internet access.
 https://play.google.com/store/apps/details?id=com.aczoom.nycmetrocard
