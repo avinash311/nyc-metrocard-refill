@@ -1,6 +1,6 @@
 // These files are used for both the online web page as well as offline Android app
 
-var DEBUG = 2; // > 0 for console.* messages, 0 to disable. Values 1 or 2 or 3.
+var DEBUG = 0; // > 0 for console.* messages, 0 to disable. Values 1 or 2 or 3.
 // var DEBUG = 2; // COMMENT OUT FOR RELEASE
 
 ///////////////////////////////////////////////////////////////////////////
