@@ -1,5 +1,7 @@
 # nyc-metrocard-refill
 
+**2021: This calculator is now obsolete. New York MTA fares are now simpler so there is no need to calculate discounts in this manner.**
+
 Yet another MetroCard refill calculator! Tourists to New York will likely use the stored-value version of the MetroCard.
 
 Use it to get a table of all possible additional subway rides based on current balance on a NYC MetroCard. It also offers a no-rounding mode, which may work for cash purchases at a manned ticket booth.
